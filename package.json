@@ -8,6 +8,9 @@
   "engines": {
     "node": "10.x"
   },
+  "scripts": {
+    "start": "node app.js"
+  },
   "dependencies": {
     "discord.js": "^12.3.1",
     "dotenv": "^8.2.0",
