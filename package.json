@@ -1,0 +1,17 @@
+{
+  "name": "wb-server",
+  "version": "1.0.0",
+  "description": "classic world buff timer server storage",
+  "main": "app.js",
+  "author": "techi",
+  "license": "MIT",
+  "engines": {
+    "node": "10.x"
+  },
+  "dependencies": {
+    "discord.js": "^12.3.1",
+    "dotenv": "^8.2.0",
+    "ioredis": "^4.17.3",
+    "redis": "^3.0.2"
+  }
+}
