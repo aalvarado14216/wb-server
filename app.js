@@ -1,4 +1,4 @@
-const http = require('http');
+const http = require('https');
 const Discord = require('discord.js');
 const redis = require('redis');
 const dotenv = require('dotenv');
@@ -202,6 +202,6 @@ const server = http.createServer((request, response) => {
     }
 });
 
-server.listen(process.env.SERVER_PORT, () => {
-    console.log(`Server running at http://${process.env.SERVER_HOSTNAME}:${process.env.SERVER_PORT}/`);
+server.listen(process.env.PORT || 8080, () => {
+    console.log(`Server running`);
 });
