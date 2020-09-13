@@ -1,4 +1,4 @@
-const http = require('https');
+const http = require('http');
 const Discord = require('discord.js');
 const redis = require('redis');
 const dotenv = require('dotenv');
