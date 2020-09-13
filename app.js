@@ -198,10 +198,10 @@ const server = http.createServer((request, response) => {
     } else {
         response.statusCode = 200;
         response.setHeader('Content-Type', 'application/json');
-        response.end(json);
+        response.end('{}');
     }
 });
 
 server.listen(process.env.PORT || 8080, () => {
-    console.log(`Server running`);
+    console.log(`Server running on port ${process.env.PORT}`);
 });
