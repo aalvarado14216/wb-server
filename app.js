@@ -22,11 +22,11 @@ const factions = [
     'Horde'
 ];
 
-function formatTimer(name, timer) {
+function formatTimer(name, timer, checkTimer) {
     let now = new Date();
     let text = name + ': ';
 
-    if (timer && timer.getTime() > now.getTime()) {
+    if (timer && (checkTimer && timer.getTime() > now.getTime())) {
         let hh = timer.getHours();
         let mm = timer.getMinutes();
         if (hh < 10) {
@@ -120,10 +120,10 @@ discordClient.on('message', msg => {
                     msg.reply([
                         realm,
                         faction,
-                        formatTimer('Ony', onyTimer),
-                        formatTimer('Nef', nefTimer),
-                        formatTimer('Rend', rendTimer),
-                        formatTimer('Updated', new Date(realmData.updated * 1000))
+                        formatTimer('Ony', onyTimer, true),
+                        formatTimer('Nef', nefTimer, true),
+                        formatTimer('Rend', rendTimer, true),
+                        formatTimer('Updated', new Date(realmData.updated * 1000), false)
                     ].join(' '));
                 });
             });
