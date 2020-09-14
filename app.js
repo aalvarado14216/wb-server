@@ -26,7 +26,7 @@ function formatTimer(name, timer, checkTimer) {
     let now = new Date();
     let text = name + ': ';
 
-    if (timer && (checkTimer && timer.getTime() > now.getTime())) {
+    if (timer && (timer.getTime() > now.getTime() || !checkTimer)) {
         let hh = timer.getHours();
         let mm = timer.getMinutes();
         if (hh < 10) {
