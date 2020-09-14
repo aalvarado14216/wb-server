@@ -73,7 +73,6 @@ discordClient.on('ready', () => {
 });
 
 discordClient.on('message', msg => {
-
     const setRealmCmd = 'wb set realm=';
     const setFactionCmd = 'wb set faction=';
 
@@ -96,10 +95,7 @@ discordClient.on('message', msg => {
     } else if (msg.content === 'wb who is best shaman') {
         msg.reply('Furryhoof is the best shaman I know!');
     } else if (msg.content === 'wb') {
-        msg.reply(msg.guild.id);
-
         // redis client does not support await/async
-
         redisClient.get('server-realm-' + msg.guild.id, (err, realm) => {
             if (!realm) {
                 realm = 'Zandalar Tribe';
@@ -135,8 +131,8 @@ discordClient.on('message', msg => {
     }
 });
 
-redisClient.on("connect", () => {
-    console.log("Connected to redis");
+redisClient.on('connect', () => {
+    console.log('Connected to redis');
 });
 
 discordClient.login(process.env.DISCORD_TOKEN);
