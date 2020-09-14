@@ -4,12 +4,21 @@
   "description": "classic world buff timer server storage",
   "main": "app.js",
   "author": "techi",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/techi602/wb-server.git"
+  },
   "license": "MIT",
   "engines": {
     "node": "10.x"
   },
+  "bugs": {
+    "url": "https://github.com/techi602/wb-server/issues"
+  },
+  "homepage": "https://github.com/techi602/wb-server#readme",
   "scripts": {
-    "start": "node app.js"
+    "start": "node app.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
     "discord.js": "^12.3.1",

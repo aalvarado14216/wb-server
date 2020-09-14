@@ -2,6 +2,7 @@ const http = require('http');
 const Discord = require('discord.js');
 const redis = require('redis');
 const dotenv = require('dotenv');
+const { url } = require('inspector');
 dotenv.config();
 
 var redisClient = redis.createClient(process.env.REDIS_URL);
@@ -10,10 +11,6 @@ var discordClient = new Discord.Client();
 const ONY_TIMER = 6;
 const NEF_TIMER = 8;
 const REND_TIMER = 3;
-
-
-var realm = 'Zandalar Tribe';
-var realm = 'Horde';
 
 const realms = [
     'Golemagg',
@@ -67,21 +64,9 @@ function setFactionForServer(server, faction) {
     return false;
 }
 
-function getRealmForServer(server) {
-    return 'Zandalar Tribe';
-}
-
-function getFactionForServer(server) {
-    return 'Horde';
-}
-
 function getRedisKey(realm, faction) {
     return ('realm_' + realm + '_' + faction).split(' ').join('_').toLowerCase();
 }
-
-let json = '{}';
-
-
 
 discordClient.on('ready', () => {
     console.log(`Logged in to Discord as ${discordClient.user.tag}!`);
@@ -112,9 +97,6 @@ discordClient.on('message', msg => {
         msg.reply('Furryhoof is the best shaman I know!');
     } else if (msg.content === 'wb') {
         msg.reply(msg.guild.id);
-
-        //var realm = getRealmForServer(msg.guild.id);
-        //var faction = getFactionForServer(msg.guild.id);
 
         // redis client does not support await/async
 
@@ -150,12 +132,10 @@ discordClient.on('message', msg => {
                 });
             });
         });
-
-        
     }
 });
 
-redisClient.on("connect", function () {
+redisClient.on("connect", () => {
     console.log("Connected to redis");
 });
 
@@ -165,31 +145,28 @@ const server = http.createServer((request, response) => {
     if (request.method === 'POST') {
         console.log('POST');
         var body = '';
-        request.on('data', function (data) {
+        request.on('data', (data) => {
             body += data;
-            //console.log('Partial body: ' + body);
         })
-        request.on('end', function () {
-            json = body;
+        request.on('end', () => {
+            let json = body;
             console.log('Body: ' + body);
             response.writeHead(200, { 'Content-Type': 'text/plain' });
             response.end('post received');
 
             let clientData = JSON.parse(json);
-            let now = new Date();
 
             realms.forEach((realm) => {
                 factions.forEach((faction) => {
                     if (typeof clientData[realm] !== 'undefined' && typeof clientData[realm][faction] !== 'undefined') {
                         realmData = clientData[realm][faction];
-                        // todo check client data is not outdated
+                        // todo check data structure before saving and parse each fields
+                        // todo check client data is not outdated?
+                        // todo check client timers may differ for few seconds?
+                        // todo check client timezone?
 
-                        realmData.updated = Date.now() / 1000;
-
+                        realmData.updated = parseInt(Math.round(Date.now() / 1000), 10);
                         redisClient.set(getRedisKey(realm, faction), JSON.stringify(realmData));
-                        //redisClient.hmset
-
-                        //data[realm][faction] = realmData;
                     }
                 })
             });
@@ -198,7 +175,28 @@ const server = http.createServer((request, response) => {
     } else {
         response.statusCode = 200;
         response.setHeader('Content-Type', 'application/json');
-        response.end('{}');
+
+        let urlParts = request.url.split('/', 3);
+        if (urlParts.length === 3) {
+
+            let realm = urlParts[1];
+            let faction = urlParts[2];
+
+            // todo check data validity
+            
+            redisClient.get(getRedisKey(realm, faction), (err, reply) => {
+                if (!reply) {
+                    let = data = {};
+                    data.message = 'no timer data for ' + realm + ' ' + faction + ' :(';
+                    response.end(JSON.stringify(data));
+                    return;
+                }
+
+                response.end(reply);
+            });
+        } else {
+            response.end('{}');
+        }
     }
 });
 
