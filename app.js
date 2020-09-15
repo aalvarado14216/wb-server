@@ -94,7 +94,7 @@ discordClient.on('message', msg => {
         }
     } else if (msg.content === 'wb who is best shaman') {
         msg.reply('Furryhoof is the best shaman I know!');
-    } else if (msg.content === 'wb') {
+    } else if (msg.content === 'wb' || msg.content === '!wb') {
         // redis client does not support await/async
         redisClient.get('server-realm-' + msg.guild.id, (err, realm) => {
             if (!realm) {
