@@ -8,6 +8,7 @@ Data are collected from clients which will upload timers to server. Timers are s
 
 You can add bot to your channel using [existing discord bot](https://discord.com/api/oauth2/authorize?client_id=754343634496651295&permissions=67584&scope=bot). Bot requires only permissions for reading and sending messages.
 [More info about bot here](https://discord.com/developers/applications/754343634496651295/information).
+To get the current timers from the bot simply type "wb" into the channel.
 If you want to host your own server and bot see installation section.
 
 ## Installation
