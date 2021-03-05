@@ -13,8 +13,8 @@ const NEF_TIMER = 8;
 const REND_TIMER = 3;
 
 const realms = [
-    'Golemagg',
-    'Zandalar Tribe'
+    'Faerlina',
+    'Faerlina'
 ];
 
 const factions = [
